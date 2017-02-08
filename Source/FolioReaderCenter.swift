@@ -8,6 +8,8 @@
 
 import UIKit
 import ZFDragableModalTransition
+import JSQWebViewController
+import SafariServices
 
 let reuseIdentifier = "Cell"
 var pageWidth: CGFloat!
@@ -221,6 +223,7 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
         let closeIcon = UIImage(readerImageNamed: "icon-navbar-close")?.ignoreSystemTint()
         let tocIcon = UIImage(readerImageNamed: "icon-navbar-toc")?.ignoreSystemTint()
         let fontIcon = UIImage(readerImageNamed: "icon-navbar-font")?.ignoreSystemTint()
+        let searchIcon = UIImage(readerImageNamed: "icon-search")?.ignoreSystemTint()
         let space = 70 as CGFloat
 
         let menu = UIBarButtonItem(image: closeIcon, style: .plain, target: self, action:#selector(closeReader(_:)))
@@ -241,7 +244,9 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
         let font = UIBarButtonItem(image: fontIcon, style: .plain, target: self, action: #selector(presentFontsMenu))
         font.width = space
         
-        rightBarIcons.append(contentsOf: [font])
+        let search = UIBarButtonItem(image: searchIcon, style: .plain, target: self, action: #selector(presentSearchView))
+        
+        rightBarIcons.append(contentsOf: [font, search])
         navigationItem.rightBarButtonItems = rightBarIcons
     }
 
@@ -1160,6 +1165,11 @@ extension FolioReaderCenter: FolioReaderPageDelegate {
 		// Pass the event to the centers `pageDelegate`
 		pageDelegate?.pageWillLoad?(page)
 	}
+    
+    func presentSearchView() {
+        let searchView = UINavigationController(rootViewController: FolioReaderSearchView())
+        present(searchView, animated: true, completion: nil)
+    }
 }
 
 // MARK: FolioReaderChapterListDelegate

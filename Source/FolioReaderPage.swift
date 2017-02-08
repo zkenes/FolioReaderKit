@@ -494,4 +494,13 @@ open class FolioReaderPage: UICollectionViewCell, UIWebViewDelegate, UIGestureRe
 	open func performJavaScript(_ javaScriptCode: String) -> String? {
 		return webView.js(javaScriptCode)
 	}
+    
+    func getHTML()-> String? {
+        let html = self.webView.js("getHTML()")
+        return html
+    }
+    func getHTMLBody()-> String? {
+        let htmlBody = self.webView.js("getHTMLBody()")
+        return htmlBody
+    }
 }
