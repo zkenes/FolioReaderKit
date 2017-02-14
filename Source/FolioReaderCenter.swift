@@ -49,6 +49,8 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
 
 	/// This delegate receives the events from current page
 	open weak var pageDelegate: FolioReaderPageDelegate?
+    
+    open var pageChangeAction: (_ totalPage: Int, _ currentPage: Int) -> Void = {_ in}
 
     
     /// The current visible page on reader
@@ -237,9 +239,9 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
             rightBarIcons.append(UIBarButtonItem(image: shareIcon, style: .plain, target: self, action:#selector(shareChapter(_:))))
         }
 
-        if book.hasAudio() || readerConfig.enableTTS {
-            rightBarIcons.append(UIBarButtonItem(image: audioIcon, style: .plain, target: self, action:#selector(presentPlayerMenu(_:))))
-        }
+//        if book.hasAudio() || readerConfig.enableTTS {
+//            rightBarIcons.append(UIBarButtonItem(image: audioIcon, style: .plain, target: self, action:#selector(presentPlayerMenu(_:))))
+//        }
         
         let font = UIBarButtonItem(image: fontIcon, style: .plain, target: self, action: #selector(presentFontsMenu))
         font.width = space
@@ -600,12 +602,15 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
         guard let page = page else { return }
 
 		let pageSize = isDirection(pageHeight, pageWidth)
-		pageIndicatorView?.totalPages = Int(ceil(page.webView.scrollView.contentSize.forDirection()/pageSize!))
+        let total = Int(ceil(page.webView.scrollView.contentSize.forDirection()/pageSize!))
+		pageIndicatorView?.totalPages = total
 
 		let pageOffSet = isDirection(page.webView.scrollView.contentOffset.x, page.webView.scrollView.contentOffset.x, page.webView.scrollView.contentOffset.y)
 		let webViewPage = pageForOffset(pageOffSet, pageHeight: pageSize!)
 
         pageIndicatorView?.currentPage = webViewPage
+        
+        self.pageChangeAction(total, webViewPage)
     }
     
     func pageForOffset(_ offset: CGFloat, pageHeight height: CGFloat) -> Int {
