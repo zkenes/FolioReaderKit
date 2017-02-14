@@ -27,8 +27,8 @@ open class FolioReaderWebView: UIWebView {
 			return false
 		} else {
 			if action == #selector(highlight(_:))
-				|| (action == #selector(define(_:)) && isOneWord)
-                || (action == #selector(play(_:)) && (book.hasAudio() || readerConfig.enableTTS))
+				|| (action == #selector(define(_:)) /*&& isOneWord*/)
+//                || (action == #selector(play(_:)) && (book.hasAudio() || readerConfig.enableTTS))
 				|| (action == #selector(share(_:)) && readerConfig.allowSharing)
 				|| (action == #selector(copy(_:)) && readerConfig.allowSharing) {
 				return true

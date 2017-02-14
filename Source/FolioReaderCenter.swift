@@ -50,7 +50,7 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
 	/// This delegate receives the events from current page
 	open weak var pageDelegate: FolioReaderPageDelegate?
     
-    open var pageChangeAction: (_ totalPage: Int, _ currentPage: Int) -> Void = {_ in}
+    static open var pageChangeAction: (_ totalPage: Int, _ currentPage: Int) -> Void = {_ in}
 
     
     /// The current visible page on reader
@@ -610,7 +610,7 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
 
         pageIndicatorView?.currentPage = webViewPage
         
-        self.pageChangeAction(total, webViewPage)
+        pageChangeAction(total, webViewPage)
     }
     
     func pageForOffset(_ offset: CGFloat, pageHeight height: CGFloat) -> Int {
