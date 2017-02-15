@@ -610,7 +610,7 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
 
         pageIndicatorView?.currentPage = webViewPage
         
-        pageChangeAction(total, webViewPage)
+        pageIndicatorView?.pageChangeAction = FolioReaderCenter.pageChangeAction
     }
     
     func pageForOffset(_ offset: CGFloat, pageHeight height: CGFloat) -> Int {

@@ -17,6 +17,8 @@ class FolioReaderPageIndicator: UIView {
         didSet { self.reloadViewWithPage(self.currentPage) }
     }
     
+    open var pageChangeAction: (_ totalPage: Int, _ currentPage: Int) -> Void = {_ in}
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -88,7 +90,7 @@ class FolioReaderPageIndicator: UIView {
         } else {
             pagesLabel.text = " \(pagesRemaining) "+readerConfig.localizedReaderManyPagesLeft
         }
-        
+        self.pageChangeAction(totalPages, page)
         
         let minutesRemaining = Int(ceil(CGFloat((pagesRemaining * totalMinutes)/totalPages)))
         if minutesRemaining > 1 {
